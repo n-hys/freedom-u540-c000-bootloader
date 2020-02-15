@@ -14,10 +14,18 @@
    http://www.opensource.org/licenses.
 */
 
-#include <sys/asm.h>
-
-#if BYTE_ORDER != LITTLE_ENDIAN
+#if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
 # error
+#endif
+
+#if __riscv_xlen == 32
+#define SZREG 4
+#define REG_L lw
+#elif __riscv_xlen == 64
+#define SZREG 8
+#define REG_L ld
+#else
+#error
 #endif
 
 .text
